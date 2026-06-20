@@ -1,0 +1,53 @@
+modules = ["nodejs-20", "web"]
+[agent]
+expertMode = true
+stack = "BEST_EFFORT_FALLBACK"
+
+[nix]
+channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 24678
+externalPort = 3000
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["node", "dist/server.cjs"]
+build = ["npm", "run", "build"]
+
+[userenv]
+
+[userenv.development]
+VITE_SERVER_URL = "https://83bfadfd-3569-4ac0-8cb6-4e4012642786-00-1aptr9jlqkd0e.pike.replit.dev"
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 60000
