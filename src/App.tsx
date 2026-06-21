@@ -2088,7 +2088,7 @@ export default function App() {
 
   // Handle gallery import: supports multiple image/video/audio files at once
   const handleGalleryImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
+    const files: File[] = Array.from(event.target.files || []);
     if (files.length === 0) return;
 
     const lecture = getSelectedLecture();

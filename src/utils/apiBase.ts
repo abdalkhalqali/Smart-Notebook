@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 const DEFAULT_SERVER_URL = "https://smart-notebook-7--aymanbdh551.replit.app";
 
 const isCapacitorNative =
@@ -7,7 +9,6 @@ const isCapacitorNative =
 const buildTimeServerUrl = (import.meta.env.VITE_SERVER_URL as string | undefined)?.replace(/\/$/, "") ?? "";
 
 export function getApiBase(): string {
-  // Runtime override from settings screen takes priority
   const runtimeUrl = (typeof localStorage !== "undefined"
     ? localStorage.getItem("serverUrl")
     : null) ?? "";
@@ -17,7 +18,6 @@ export function getApiBase(): string {
     return resolved;
   }
 
-  // On web, use runtime override if set, otherwise empty (relative URLs work)
   if (runtimeUrl && runtimeUrl !== DEFAULT_SERVER_URL) {
     return runtimeUrl.replace(/\/$/, "");
   }
