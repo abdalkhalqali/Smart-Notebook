@@ -46,6 +46,16 @@ jobs:
             npx cap add android
           fi
 
+      - name: Apply custom AndroidManifest (camera, mic, storage permissions)
+        run: |
+          cp android-config/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+          mkdir -p android/app/src/main/java/com/unnoted/smartnotebook
+          cat > android/app/src/main/java/com/unnoted/smartnotebook/MainActivity.java << 'EOF'
+          package com.unnoted.smartnotebook;
+          import com.getcapacitor.BridgeActivity;
+          public class MainActivity extends BridgeActivity {}
+          EOF
+
       - name: Generate app icons from resources
         run: npx @capacitor/assets generate --android --iconBackgroundColor '#0f172a' --iconBackgroundColorDark '#0f172a' --splashBackgroundColor '#0f172a' --splashBackgroundColorDark '#0f172a'
         continue-on-error: true
